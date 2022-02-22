@@ -20,7 +20,7 @@ fi
 sudo apt-get -qq update
 
 apt_install() {
-	sudo apt-get install -y $@
+	sudo apt-get install -y kmod $@
 }
 
 if [ -z "$NUM_JOBS" ] ; then
@@ -190,7 +190,8 @@ build_default() {
 
 	apt_update_install $APT_LIST
 	make ${DEFCONFIG}
-	make -j$NUM_JOBS $IMAGE UIMAGE_LOADADDR=0x8000
+	make -j$NUM_JOBS $IMAGE UIMAGE_LOADADDR=0x8000 modules
+	make modules_install
 
 	if [ "$CHECK_ALL_ADI_DRIVERS_HAVE_BEEN_BUILT" = "1" ] ; then
 		check_all_adi_files_have_been_built
